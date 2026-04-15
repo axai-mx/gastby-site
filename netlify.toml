@@ -3,6 +3,6 @@
   publish = "public"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "16"
   NODE_ENV = "production"
   SHARP_IGNORE_GLOBAL_LIBVIPS = "true"
