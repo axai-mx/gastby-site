@@ -55,6 +55,9 @@
   ],
   "license": "MIT",
   "main": "n/a",
+  "overrides": {
+    "sharp": "^0.31.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jackbravo/gatsby-starter-blog.git"
@@ -65,7 +68,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js' 'src/**/*.md'",
     "develop": "gatsby develop",
-    "build": "npm rebuild sharp pngquant-bin && gatsby build",
+    "build": "gatsby build",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js"
   }

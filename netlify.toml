@@ -4,6 +4,5 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--ignore-scripts"
+  NODE_ENV = "production"
   SHARP_IGNORE_GLOBAL_LIBVIPS = "true"
-  NPM_CONFIG_BUILD_FROM_SOURCE = "false"
