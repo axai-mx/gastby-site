@@ -56,7 +56,7 @@
   "license": "MIT",
   "main": "n/a",
   "overrides": {
-    "sharp": "^0.31.0"
+    "sharp": "^0.30.7"
   },
   "repository": {
     "type": "git",
