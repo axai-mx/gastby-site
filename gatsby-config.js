@@ -1,11 +1,10 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://axai-mx.github.io',
+    siteUrl: 'https://axai.com.mx',
     author: 'Joaquín Bravo Contreras',
     title: 'Axai, Soluciones Avanzadas',
     description: 'Despacho de desarrollo web en Guadalajara',
   },
-  // pathPrefix removed — serving from root of axai-mx.github.io
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
@@ -57,7 +56,7 @@ module.exports = {
         icon: `src/assets/gatsby-icon.png`,
       },
     },
-    // `gatsby-plugin-offline`, // disabled — incompatible with Node 18+, PWA not needed for static archive
+    // `gatsby-plugin-offline`, // disabled — incompatible with Node 18+, not needed
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
@@ -66,6 +65,6 @@ module.exports = {
         pathToConfigModule: 'src/utils/typography',
       },
     },
-    // `gatsby-plugin-netlify`, // removed — no longer deploying to Netlify
+    `gatsby-plugin-netlify`, // make sure to put last in the array
   ],
 }

@@ -1,6 +1,6 @@
 # Axai Site — Static (Gatsby)
 
-Static version of the Axai website, built with [Gatsby](https://www.gatsbyjs.com/). Replaces the original Drupal-based site.
+Static version of the Axai website, built with [Gatsby](https://www.gatsbyjs.com/). Replaces the original Drupal-based site. Deployed on [Netlify](https://www.netlify.com/) at [axai.com.mx](https://axai.com.mx).
 
 Content is bilingual (English/Spanish) with pages for:
 - **Projects** (case studies): 8 projects with screenshots
@@ -10,7 +10,7 @@ Content is bilingual (English/Spanish) with pages for:
 
 ## Development
 
-Requires Node.js 18 (use nvm):
+Requires Node.js 18:
 
 ```bash
 nvm install 18
@@ -26,23 +26,14 @@ npm run develop
 npm run build
 ```
 
-## Deploy to GitHub Pages
+## Netlify Deployment
 
-The site auto-deploys via GitHub Actions on every push to `master`.
+The site auto-deploys via Netlify on every push to `master`. Configuration is in `netlify.toml`.
 
-To deploy manually:
-
-```bash
-npm run deploy
-```
-
-### GitHub Pages Setup
-
-1. Go to repo Settings → Pages
-2. Set Source to "GitHub Actions"
-3. The site will be available at `https://axai-mx.github.io`
-
-**Note:** For the site to serve at `axai-mx.github.io` (without a sub-path), the repo must be named `axai-mx.github.io`. If using a different repo name, add `pathPrefix: '/<repo-name>'` back to `gatsby-config.js` and use `--prefix-paths` with the build command.
+Key settings:
+- **Node version**: 18 (pinned in `netlify.toml`)
+- **NPM_FLAGS**: `--ignore-scripts` (avoids broken native module compilation during install)
+- **Build command**: `npm run build` (rebuilds sharp/pngquant-bin before gatsby build)
 
 ## Content Import
 
