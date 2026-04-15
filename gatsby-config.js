@@ -66,6 +66,6 @@ module.exports = {
         pathToConfigModule: 'src/utils/typography',
       },
     },
-    `gatsby-plugin-netlify`, // make sure to put last in the array
+    // `gatsby-plugin-netlify`, // removed — no longer deploying to Netlify
   ],
 }
