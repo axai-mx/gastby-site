@@ -1,0 +1,46 @@
+---
+// People pages: /es/personas/{slug}/ and /en/people/{slug}/
+import PersonLayout from "~/layouts/Person.astro";
+import { getCollection } from 'astro:content';
+import { getBlogsByUser } from "~/utils/content";
+
+export async function getStaticPaths() {
+  const people = await getCollection('people');
+  const blogs = await getCollection('blog');
+  const pages = await getCollection('pages');
+  
+  return people.map(person => {
+    const language = person.data.language;
+    const userBlogs = getBlogsByUser(blogs, person.data.nick);
+    
+    const slugParts = person.data.permalink.replace(/^\/|\/$/g, '').split('/');
+    const lang = slugParts[0];
+    const peopleSegment = slugParts[1]; // 'personas' or 'people'
+    const rest = slugParts.slice(2);
+    
+    return {
+      params: { lang, peopleType: peopleSegment, slug: rest.join('/') },
+      props: { person, posts: userBlogs, language, pages },
+    };
+  });
+}
+
+const { person, posts, language, pages } = Astro.props;
+
+const langConfig = pages.find(p => p.data.type === 'language' && p.data.language === language);
+const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
+
+const postLinks = posts.map(p => ({ slug: p.data.permalink, title: p.data.title }));
+---
+
+<PersonLayout
+  title={person.data.title}
+  language={language}
+  description={person.body?.substring(0, 160)}
+  translations={person.data.translations}
+  config={siteConfig}
+  picture={person.data.picture}
+  posts={postLinks}
+>
+  <div set:html={person.body} />
+</PersonLayout>

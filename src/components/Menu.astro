@@ -1,0 +1,33 @@
+---
+// Menu component - shows navigation links for the current language
+import { getCollection } from 'astro:content';
+
+interface Props {
+  language: string;
+}
+
+const { language } = Astro.props;
+
+const allPages = await getCollection('pages');
+const menuPages = allPages
+  .filter(p => {
+    const lang = p.data.language;
+    const type = p.data.type;
+    return lang === language && (type === 'language' || type === 'blog-index');
+  })
+  .sort((a, b) => {
+    // Sort: language type first, then blog-index
+    const order = { 'language': 0, 'blog-index': 1 };
+    return (order[a.data.type] || 2) - (order[b.data.type] || 2);
+  });
+---
+
+<ul class="menu">
+  {menuPages.map(page => (
+    <li>
+      <a href={page.data.permalink} title={page.data.title}>
+        {page.data.menu_label}
+      </a>
+    </li>
+  ))}
+</ul>

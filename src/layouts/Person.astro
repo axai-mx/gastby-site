@@ -1,0 +1,42 @@
+---
+import BaseLayout from '~/layouts/Layout.astro';
+import Bio from '~/components/Bio.astro';
+
+interface Props {
+  title: string;
+  language: string;
+  description?: string;
+  translations?: string[];
+  config?: { slug: string; title: string };
+  picture?: string;
+  posts?: { slug: string; title: string }[];
+}
+
+const { title, language, description, translations, config, picture, posts = [] } = Astro.props;
+---
+
+<BaseLayout
+  title={`${title} | ${config?.title || 'Axai'}`}
+  language={language}
+  description={description}
+  translations={translations}
+  config={config}
+>
+  <article>
+    <h1>{title}</h1>
+    {picture && (
+      <img src={picture} alt={title} class="person-picture" />
+    )}
+    <div class="post-content">
+      <slot />
+    </div>
+    <h2>Posts</h2>
+    <ul>
+      {posts.map((post) => (
+        <li><a href={post.slug}>{post.title}</a></li>
+      ))}
+    </ul>
+  </article>
+  <hr />
+  <Bio />
+</BaseLayout>
