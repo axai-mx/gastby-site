@@ -12,8 +12,8 @@ export async function getStaticPaths() {
     const language = project.data.language;
     const langProjects = getProjectsByLanguage(projects, language);
     const langIndex = langProjects.findIndex(p => p.data.permalink === project.data.permalink);
-    const previous = langIndex < langProjects.length - 1 ? langProjects[langIndex + 1] : null;
-    const next = langIndex > 0 ? langProjects[langIndex - 1] : null;
+    const older = langIndex < langProjects.length - 1 ? langProjects[langIndex + 1] : null;
+    const newer = langIndex > 0 ? langProjects[langIndex - 1] : null;
     
     const slugParts = project.data.permalink.replace(/^\/|\/$/g, '').split('/');
     const lang = slugParts[0];
@@ -21,12 +21,12 @@ export async function getStaticPaths() {
     
     return {
       params: { lang, slug: rest.join('/') },
-      props: { project, previous, next, language, pages },
+      props: { project, older, newer, language, pages },
     };
   });
 }
 
-const { project, previous, next, language, pages } = Astro.props;
+const { project, older, newer, language, pages } = Astro.props;
 const { Content } = await project.render();
 
 const langConfig = pages.find(p => p.data.type === 'language' && p.data.language === language);
@@ -47,16 +47,16 @@ const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langCo
   
   <ul class="post-nav">
     <li>
-      {previous && (
-        <a href={previous.data.permalink} rel="prev">
-          ← {previous.data.title}
+      {older && (
+        <a href={older.data.permalink} rel="prev">
+          ← {older.data.title}
         </a>
       )}
     </li>
     <li>
-      {next && (
-        <a href={next.data.permalink} rel="next">
-          {next.data.title} →
+      {newer && (
+        <a href={newer.data.permalink} rel="next">
+          {newer.data.title} →
         </a>
       )}
     </li>
