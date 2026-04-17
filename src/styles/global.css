@@ -163,7 +163,7 @@ h3 {
 .bio {
   display: flex;
   margin-bottom: 2.5rem;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .bio img {
