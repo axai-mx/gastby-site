@@ -101,7 +101,6 @@ h3 {
 .menu a {
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
-  color: var(--text-primary);
 }
 
 .menu a:hover {
