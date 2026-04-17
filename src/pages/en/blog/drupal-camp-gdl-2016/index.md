@@ -10,7 +10,7 @@ image: "drupalc_01.jpg"
 translations: ["es", "es/blog/drupal-camp-gdl-2016"]
 ---
 
-Translated by [gerardo](http://www.axai.com.mx/en/team/gerardo)
+Translated by [gerardo](/en/people/gerardo/)
 
 Waiting for April… - Like a popular trovador's song (Silvio Rodriguez), in the midst of the month in which we celebrate children, and with the heat of the spring sun all over us, the "pearl of the West" (Guadalajara) was patiently waiting to be the host of the event which gathers excellent domestic and foreign software developers, real Internet rockstars, a few geeks and some IT lovers: [**Drupal Camp Guadalajara 2016**](http://www.drupalcampgdl.com), with the slogan: "The freedom to create the web of the future", became a romatic relationship between Asimov book titles and the Drupal community.
 
