@@ -292,6 +292,47 @@ h3 {
   background: var(--project-overlay);
 }
 
+/* Team grid */
+.team-intro {
+  margin-bottom: 2rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.team-member {
+  text-align: center;
+}
+
+.team-member a {
+  text-decoration: none;
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+.team-member-picture {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.team-member a:hover .team-member-picture {
+  transform: scale(1.05);
+}
+
+.team-member-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
 /* Post navigation */
 .post-nav {
   display: flex;

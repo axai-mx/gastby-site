@@ -13,13 +13,11 @@ const menuPages = allPages
   .filter(p => {
     const lang = p.data.language;
     const type = p.data.type;
-    return lang === language && (type === 'language' || type === 'blog-index');
+    return lang === language && (type === 'language' || type === 'blog-index' || type === 'team-index');
   })
   .sort((a, b) => {
-    // Sort: language (Inicio/Start) first, then blog-index
-    if (a.data.type === 'language') return -1;
-    if (b.data.type === 'language') return 1;
-    return 0;
+    const order: Record<string, number> = { 'language': 0, 'team-index': 1, 'blog-index': 2 };
+    return (order[a.data.type] ?? 99) - (order[b.data.type] ?? 99);
   });
 ---
 
