@@ -1,0 +1,60 @@
+---
+// Dynamic route for language homepages: /es/ and /en/
+import Layout from "~/layouts/Layout.astro";
+import Bio from "~/components/Bio.astro";
+import { getCollection } from 'astro:content';
+import { getProjectsByLanguage } from "~/utils/content";
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  const projects = await getCollection('projects');
+  const langPages = pages.filter(p => p.data.type === 'language');
+  
+  return langPages.map(page => {
+    const language = page.data.language;
+    const config = page.data;
+    const langProjects = getProjectsByLanguage(projects, language);
+    
+    return {
+      params: { lang: language },
+      props: { page, config, projects: langProjects },
+    };
+  });
+}
+
+const { page, config, projects } = Astro.props;
+const { Content } = await page.render();
+const language = page.data.language;
+
+const overlayColors = ['#f76262', '#216583', '#65c0ba', '#35477d', '#6c5b7b', '#203541', '#9951ff', '#480032'];
+---
+
+<Layout
+  title={config.title}
+  language={language}
+  description={config.description}
+  config={{ slug: config.permalink, title: config.title }}
+  isHome={true}
+>
+  <Bio>
+    <Content />
+  </Bio>
+  
+  <div class="project-grid">
+    {projects.map((project, i) => {
+      const color = overlayColors[i % overlayColors.length];
+      return (
+        <div class="project-item">
+          <div class="project-content">
+            {project.data.image && <img src={project.data.image} alt={project.data.title} />}
+            <a href={project.data.permalink}>
+              <div class="project-overlay" style={`background-color: ${color}`} />
+              <h2>{project.data.title}</h2>
+              <div>{project.data.projectInfo}</div>
+            </a>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</Layout>

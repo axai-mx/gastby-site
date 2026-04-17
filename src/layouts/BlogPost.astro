@@ -1,0 +1,46 @@
+---
+import BaseLayout from '~/layouts/Layout.astro';
+import Bio from '~/components/Bio.astro';
+
+interface Props {
+  title: string;
+  language: string;
+  description?: string;
+  user?: string;
+  date?: string;
+  translations?: string[];
+  config?: { slug: string; title: string };
+  image?: string;
+}
+
+const { title, language, description, user, date, translations, config, image } = Astro.props;
+
+// Compute person link from user and language
+const peoplePath = language === 'es' ? 'personas' : 'people';
+const userLink = `/${language}/${peoplePath}/${user}`;
+---
+
+<BaseLayout
+  title={`${title} | ${config?.title || 'Axai'}`}
+  language={language}
+  description={description}
+  translations={translations}
+  config={config}
+>
+  <article>
+    <h1>{title}</h1>
+    {user && date && (
+      <p class="meta">
+        <a href={userLink}>{user}</a> - {date}
+      </p>
+    )}
+    {image && (
+      <img src={image} alt={title} class="post-image" />
+    )}
+    <div class="post-content">
+      <slot />
+    </div>
+  </article>
+  <hr />
+  <Bio />
+</BaseLayout>

@@ -1,0 +1,52 @@
+---
+// Blog index: /es/blog/ and /en/blog/
+import Layout from "~/layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import { getBlogIndexConfig, getBlogsByLanguage, formatDate, getExcerpt } from "~/utils/content";
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  const blogs = await getCollection('blog');
+  
+  const blogIndexes = pages.filter(p => p.data.type === 'blog-index');
+  
+  return blogIndexes.map(page => {
+    const language = page.data.language;
+    const config = getBlogIndexConfig(pages, language);
+    const langBlogs = getBlogsByLanguage(blogs, language);
+    
+    return {
+      params: { lang: language },
+      props: { page, config, blogs: langBlogs },
+    };
+  });
+}
+
+const { page, config, blogs } = Astro.props;
+const language = page.data.language;
+const langConfig = config;
+const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
+const peoplePath = language === 'es' ? 'personas' : 'people';
+---
+
+<Layout
+  title={page.data.title}
+  language={language}
+  translations={page.data.translations}
+  config={siteConfig}
+>
+  {blogs.map(post => {
+    const userLink = `/${language}/${peoplePath}/${post.data.user}`;
+    return (
+      <div class="post-list-item">
+        <h3>
+          <a href={post.data.permalink}>{post.data.title}</a>
+        </h3>
+        <small>
+          <a href={userLink}>{post.data.user}</a> - {formatDate(post.data.date, language)}
+        </small>
+        <p>{getExcerpt(post.body)}</p>
+      </div>
+    );
+  })}
+</Layout>

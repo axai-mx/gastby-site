@@ -1,7 +1,21 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
 node_modules/
-public
-.gatsby-context.js
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS
 .DS_Store
-.intermediate-representation/
-.cache/
-yarn.lock
+
+# Astro
+astro.config.*.mjs

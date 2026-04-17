@@ -1,0 +1,64 @@
+---
+// Project posts: /es/project/{slug}/ and /en/project/{slug}/
+import ProjectPostLayout from "~/layouts/ProjectPost.astro";
+import { getCollection } from 'astro:content';
+import { getProjectsByLanguage, formatDate } from "~/utils/content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  const pages = await getCollection('pages');
+  
+  return projects.map((project) => {
+    const language = project.data.language;
+    const langProjects = getProjectsByLanguage(projects, language);
+    const langIndex = langProjects.findIndex(p => p.data.permalink === project.data.permalink);
+    const previous = langIndex < langProjects.length - 1 ? langProjects[langIndex + 1] : null;
+    const next = langIndex > 0 ? langProjects[langIndex - 1] : null;
+    
+    const slugParts = project.data.permalink.replace(/^\/|\/$/g, '').split('/');
+    const lang = slugParts[0];
+    const rest = slugParts.slice(2); // skip 'project'
+    
+    return {
+      params: { lang, slug: rest.join('/') },
+      props: { project, previous, next, language, pages },
+    };
+  });
+}
+
+const { project, previous, next, language, pages } = Astro.props;
+const { Content } = await project.render();
+
+const langConfig = pages.find(p => p.data.type === 'language' && p.data.language === language);
+const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
+---
+
+<ProjectPostLayout
+  title={project.data.title}
+  language={language}
+  date={formatDate(project.data.date, language)}
+  translations={project.data.translations}
+  config={siteConfig}
+  image={project.data.image}
+>
+  <div class="post-content">
+    <Content />
+  </div>
+  
+  <ul class="post-nav">
+    <li>
+      {previous && (
+        <a href={previous.data.permalink} rel="prev">
+          ← {previous.data.title}
+        </a>
+      )}
+    </li>
+    <li>
+      {next && (
+        <a href={next.data.permalink} rel="next">
+          {next.data.title} →
+        </a>
+      )}
+    </li>
+  </ul>
+</ProjectPostLayout>

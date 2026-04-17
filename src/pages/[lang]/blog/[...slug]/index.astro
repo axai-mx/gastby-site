@@ -1,0 +1,66 @@
+---
+// Blog posts: /es/blog/{post-slug}/ and /en/blog/{post-slug}/
+import BlogPostLayout from "~/layouts/BlogPost.astro";
+import { getCollection } from 'astro:content';
+import { getBlogsByLanguage, formatDate } from "~/utils/content";
+
+export async function getStaticPaths() {
+  const blogs = await getCollection('blog');
+  const pages = await getCollection('pages');
+  
+  return blogs.map((post) => {
+    const language = post.data.language;
+    const langBlogs = getBlogsByLanguage(blogs, language);
+    const langIndex = langBlogs.findIndex(b => b.data.permalink === post.data.permalink);
+    const previous = langIndex < langBlogs.length - 1 ? langBlogs[langIndex + 1] : null;
+    const next = langIndex > 0 ? langBlogs[langIndex - 1] : null;
+    
+    // Extract the slug parts: /es/blog/foo/ → lang=es, slug=foo
+    const slugParts = post.data.permalink.replace(/^\/|\/$/g, '').split('/');
+    const lang = slugParts[0]; // es or en
+    const rest = slugParts.slice(2); // skip 'blog'
+    
+    return {
+      params: { lang, slug: rest.join('/') },
+      props: { post, previous, next, language, pages },
+    };
+  });
+}
+
+const { post, previous, next, language, pages } = Astro.props;
+const { Content } = await post.render();
+
+const langConfig = pages.find(p => p.data.type === 'language' && p.data.language === language);
+const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
+---
+
+<BlogPostLayout
+  title={post.data.title}
+  language={language}
+  user={post.data.user}
+  date={formatDate(post.data.date, language)}
+  translations={post.data.translations}
+  config={siteConfig}
+  image={post.data.image}
+>
+  <div class="post-content">
+    <Content />
+  </div>
+  
+  <ul class="post-nav">
+    <li>
+      {previous && (
+        <a href={previous.data.permalink} rel="prev">
+          ← {previous.data.title}
+        </a>
+      )}
+    </li>
+    <li>
+      {next && (
+        <a href={next.data.permalink} rel="next">
+          {next.data.title} →
+        </a>
+      )}
+    </li>
+  </ul>
+</BlogPostLayout>

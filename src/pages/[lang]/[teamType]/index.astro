@@ -1,0 +1,61 @@
+---
+// Team listing page: /en/team/ and /es/equipo/
+import Layout from '~/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  const teamPages = pages.filter(p => p.data.type === 'team-index');
+  const people = await getCollection('people');
+  
+  return teamPages.map(page => {
+    const language = page.data.language;
+    const slugParts = page.data.permalink.replace(/^\/|\/$/g, '').split('/');
+    const lang = slugParts[0];
+    const teamSegment = slugParts[1];
+    
+    // Get people for this language
+    const langPeople = people.filter(p => p.data.language === language);
+    
+    return {
+      params: { lang, teamType: teamSegment },
+      props: { page, people: langPeople, language },
+    };
+  });
+}
+
+const { page, people, language } = Astro.props;
+const { Content } = await page.render();
+
+const allPages = await getCollection('pages');
+const langConfig = allPages.find(p => p.data.type === 'language' && p.data.language === language);
+const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
+---
+
+<Layout
+  title={page.data.title}
+  language={language}
+  translations={page.data.translations}
+  config={siteConfig}
+>
+  <div class="team-intro">
+    <Content />
+  </div>
+  
+  <div class="team-grid">
+    {people.map(person => (
+      <div class="team-member">
+        <a href={person.data.permalink}>
+          {person.data.picture && (
+            <img
+              class="team-member-picture"
+              src={person.data.picture}
+              alt={person.data.title}
+            />
+          )}
+          <h3 class="team-member-name">{person.data.title}</h3>
+        </a>
+      </div>
+    ))}
+  </div>
+</Layout>

@@ -1,0 +1,57 @@
+---
+import Menu from '~/components/Menu.astro';
+import LanguageSwitcher from '~/components/LanguageSwitcher.astro';
+import '~/styles/global.css';
+
+interface Props {
+  title: string;
+  language: string;
+  description?: string;
+  translations?: string[];
+  config?: { slug: string; title: string };
+  isHome?: boolean;
+}
+
+const { title, language, description = '', translations, config, isHome = false } = Astro.props;
+const rssPath = `/${language}/rss.xml`;
+const rssTitle = language === 'es' ? 'Axai RSS (Español)' : 'Axai RSS (English)';
+---
+
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="alternate" type="application/rss+xml" title={rssTitle} href={rssPath} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="nav-bar">
+        <Menu language={language} />
+        <LanguageSwitcher language={language} translations={translations} />
+      </div>
+      {isHome ? (
+        <h1 class="site-title-home">
+          <a href={config?.slug || '/'}>
+            {config?.title || title}
+          </a>
+        </h1>
+      ) : (
+        <h3 class="site-title">
+          <a href={config?.slug || '/'}>
+            {config?.title || title}
+          </a>
+        </h3>
+      )}
+      <slot />
+    </div>
+  </body>
+</html>

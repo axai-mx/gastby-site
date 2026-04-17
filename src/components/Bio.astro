@@ -1,0 +1,10 @@
+---
+// Bio component - site bio sidebar
+import { Image } from 'astro:assets';
+import axaiLogo from '~/assets/axai.png';
+---
+
+<div class="bio">
+  <Image src={axaiLogo} alt="Axai" width={64} height={64} />
+  <div><slot /></div>
+</div>

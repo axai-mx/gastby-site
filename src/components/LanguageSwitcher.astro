@@ -1,0 +1,42 @@
+---
+// Language Switcher - shows link to other language version
+import { getCollection } from 'astro:content';
+
+interface Props {
+  language: string;
+  translations?: string[];
+}
+
+const { language, translations } = Astro.props;
+
+const allPages = await getCollection('pages');
+const langPages = allPages.filter(p => p.data.type === 'language');
+---
+
+<ul class="language-switcher">
+  {langPages
+    .filter(page => page.data.language !== language)
+    .map(page => {
+      // If translations array exists, try to find the specific translation
+      let link = page.data.permalink;
+      if (translations) {
+        const lang = page.data.language;
+        const idx = translations.indexOf(lang);
+        if (idx !== -1 && translations[idx + 1]) {
+          let translation = translations[idx + 1];
+          // Normalize: ensure leading / and trailing /
+          if (!translation.startsWith('/')) translation = '/' + translation;
+          if (!translation.endsWith('/')) translation += '/';
+          link = translation;
+        }
+      }
+      return (
+        <li>
+          <a href={link}>
+            {page.data.language_label}
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
