@@ -1,6 +1,7 @@
 ---
 // Dynamic route for language homepages: /es/ and /en/
 import Layout from "~/layouts/Layout.astro";
+import Bio from "~/components/Bio.astro";
 import { getCollection } from 'astro:content';
 import { getProjectsByLanguage } from "~/utils/content";
 
@@ -35,7 +36,9 @@ const overlayColors = ['#f76262', '#216583', '#65c0ba', '#35477d', '#6c5b7b', '#
   config={{ slug: config.permalink, title: config.title }}
   isHome={true}
 >
-  <Content />
+  <Bio>
+    <Content />
+  </Bio>
   
   <div class="project-grid">
     {projects.map((project, i) => {
