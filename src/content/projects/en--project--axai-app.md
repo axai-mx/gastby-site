@@ -6,6 +6,7 @@ date: "2014-11-11T19:10:00.000Z"
 user: "gerardo"
 language: "en"
 aliases: ["project/axai-app","project/axai-app","project/axai-native-cross-platform-mobile-application"]
+translations: ["es", "es/project/axai-app/"]
 image: "/en/project/axai-app/placeit-3.jpg"
 projectUrl: "https://github.com/g3r4/Axai-app-XamarinForms"
 projectInfo: "Native cross platform mobile application (Android / iOS)"
