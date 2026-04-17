@@ -43,3 +43,20 @@ export function formatDate(dateStr, language) {
   }
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' });
 }
+
+// Generate an excerpt from rendered HTML, matching Gatsby's default excerpt (~140 chars)
+export function getExcerpt(html: string, maxLength = 140): string {
+  // Strip HTML tags
+  const text = html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&\w+;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  
+  if (text.length <= maxLength) return text;
+  
+  // Cut at word boundary
+  const truncated = text.substring(0, maxLength);
+  const lastSpace = truncated.lastIndexOf(' ');
+  return (lastSpace > 0 ? truncated.substring(0, lastSpace) : truncated) + ' …';
+}

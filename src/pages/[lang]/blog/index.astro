@@ -2,7 +2,7 @@
 // Blog index: /es/blog/ and /en/blog/
 import Layout from "~/layouts/Layout.astro";
 import { getCollection } from 'astro:content';
-import { getBlogIndexConfig, getBlogsByLanguage, formatDate } from "~/utils/content";
+import { getBlogIndexConfig, getBlogsByLanguage, formatDate, getExcerpt } from "~/utils/content";
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
@@ -45,7 +45,7 @@ const peoplePath = language === 'es' ? 'personas' : 'people';
         <small>
           <a href={userLink}>{post.data.user}</a> - {formatDate(post.data.date, language)}
         </small>
-        <p set:html={post.body} />
+        <p>{getExcerpt(post.body)}</p>
       </div>
     );
   })}
