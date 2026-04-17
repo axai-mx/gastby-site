@@ -44,10 +44,16 @@ export function formatDate(dateStr, language) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' });
 }
 
-// Generate an excerpt from rendered HTML, matching Gatsby's default excerpt (~140 chars)
-export function getExcerpt(html: string, maxLength = 140): string {
-  // Strip HTML tags
-  const text = html
+// Generate an excerpt from raw markdown, matching Gatsby's default excerpt (~140 chars)
+export function getExcerpt(markdown: string, maxLength = 140): string {
+  const text = markdown
+    // Strip markdown links: [text](url) → text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // Strip markdown images: ![alt](url)
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+    // Strip markdown bold/italic
+    .replace(/(\*{1,3}|_{1,3})(.+?)\1/g, '$2')
+    // Strip HTML tags
     .replace(/<[^>]*>/g, ' ')
     .replace(/&\w+;/g, ' ')
     .replace(/\s+/g, ' ')
