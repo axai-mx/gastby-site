@@ -13,6 +13,8 @@ interface Props {
 }
 
 const { title, language, description = '', translations, config, isHome = false } = Astro.props;
+const rssPath = `/${language}/rss.xml`;
+const rssTitle = language === 'es' ? 'Axai RSS (Español)' : 'Axai RSS (English)';
 ---
 
 <!doctype html>
@@ -24,6 +26,7 @@ const { title, language, description = '', translations, config, isHome = false 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="alternate" type="application/rss+xml" title={rssTitle} href={rssPath} />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
