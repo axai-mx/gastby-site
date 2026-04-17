@@ -9,3 +9,5 @@ description: "Soluciones avanzadas para manejo de contenidos."
 ---
 
 Desarrollamos sitios y aplicaciones web en Drupal, el sistema de administración de contenidos.
+
+Axai cerró sus puertas en julio de 2018. Hasta la vista, y gracias por todo el pescado 🙂
