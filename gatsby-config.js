@@ -1,11 +1,10 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://axai-mx.github.io/gatsby-site/',
+    siteUrl: 'https://axai.com.mx',
     author: 'Joaquín Bravo Contreras',
     title: 'Axai, Soluciones Avanzadas',
     description: 'Despacho de desarrollo web en Guadalajara',
   },
-  pathPrefix: '/gatsby-site',
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
@@ -57,7 +56,7 @@ module.exports = {
         icon: `src/assets/gatsby-icon.png`,
       },
     },
-    `gatsby-plugin-offline`,
+    // `gatsby-plugin-offline`, // disabled — incompatible with Node 18+, not needed
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
