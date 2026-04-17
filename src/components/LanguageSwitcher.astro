@@ -23,7 +23,11 @@ const langPages = allPages.filter(p => p.data.type === 'language');
         const lang = page.data.language;
         const idx = translations.indexOf(lang);
         if (idx !== -1 && translations[idx + 1]) {
-          link = translations[idx + 1];
+          let translation = translations[idx + 1];
+          // Normalize: ensure leading / and trailing /
+          if (!translation.startsWith('/')) translation = '/' + translation;
+          if (!translation.endsWith('/')) translation += '/';
+          link = translation;
         }
       }
       return (
