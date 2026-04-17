@@ -27,6 +27,7 @@ export async function getStaticPaths() {
 }
 
 const { project, previous, next, language, pages } = Astro.props;
+const { Content } = await project.render();
 
 const langConfig = pages.find(p => p.data.type === 'language' && p.data.language === language);
 const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
@@ -35,13 +36,14 @@ const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langCo
 <ProjectPostLayout
   title={project.data.title}
   language={language}
-  description={project.body?.substring(0, 160)}
   date={formatDate(project.data.date, language)}
   translations={project.data.translations}
   config={siteConfig}
   image={project.data.image}
 >
-  <div set:html={project.body} />
+  <div class="post-content">
+    <Content />
+  </div>
   
   <ul class="post-nav">
     <li>

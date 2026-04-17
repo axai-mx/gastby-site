@@ -26,21 +26,22 @@ export async function getStaticPaths() {
 }
 
 const { person, posts, language, pages } = Astro.props;
+const { Content } = await person.render();
 
 const langConfig = pages.find(p => p.data.type === 'language' && p.data.language === language);
 const siteConfig = langConfig ? { slug: langConfig.data.permalink, title: langConfig.data.title } : null;
-
 const postLinks = posts.map(p => ({ slug: p.data.permalink, title: p.data.title }));
 ---
 
 <PersonLayout
   title={person.data.title}
   language={language}
-  description={person.body?.substring(0, 160)}
   translations={person.data.translations}
   config={siteConfig}
   picture={person.data.picture}
   posts={postLinks}
 >
-  <div set:html={person.body} />
+  <div class="post-content">
+    <Content />
+  </div>
 </PersonLayout>

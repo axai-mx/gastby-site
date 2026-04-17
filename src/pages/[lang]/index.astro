@@ -22,6 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { page, config, projects } = Astro.props;
+const { Content } = await page.render();
 const language = page.data.language;
 
 const overlayColors = ['#f76262', '#216583', '#65c0ba', '#35477d', '#6c5b7b', '#203541', '#9951ff', '#480032'];
@@ -34,7 +35,7 @@ const overlayColors = ['#f76262', '#216583', '#65c0ba', '#35477d', '#6c5b7b', '#
   config={{ slug: config.permalink, title: config.title }}
   isHome={true}
 >
-  <div set:html={page.body} />
+  <Content />
   
   <div class="project-grid">
     {projects.map((project, i) => {
